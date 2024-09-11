@@ -1,7 +1,10 @@
 import { GOOGLE_MAP_STYLE } from "@/config"
 import { useTabelog } from "@/hooks/useTabelog"
 import { useGeolocation } from "@uidotdev/usehooks"
-import { Map } from "@vis.gl/react-google-maps"
+import {
+  Map,
+  MapCameraChangedEvent,
+} from "@vis.gl/react-google-maps"
 import { FC } from "react"
 
 const DEFAULT_MAP_DATA = {
@@ -14,8 +17,20 @@ const DEFAULT_MAP_DATA = {
 
 const MapsPage: FC = () => {
   const { latitude, longitude } = useGeolocation()
-  const { data } = useTabelog()
+
+  const { data, setArgs } = useTabelog()
   console.log(data)
+  function boundChangeHandler(event: MapCameraChangedEvent) {
+    if (!event.map.getBounds()) return
+
+    setArgs({
+      minLat: event.map.getBounds()!.getNorthEast().lat(),
+      maxLat: event.map.getBounds()!.getSouthWest().lat(),
+      minLon: event.map.getBounds()!.getNorthEast().lng(),
+      maxLon: event.map.getBounds()!.getSouthWest().lng(),
+    })
+  }
+
   return (
     <div className="w-full h-full">
       <Map
@@ -29,6 +44,7 @@ const MapsPage: FC = () => {
         styles={GOOGLE_MAP_STYLE}
         gestureHandling={"greedy"}
         disableDefaultUI={true}
+        onBoundsChanged={boundChangeHandler}
       />
     </div>
   )

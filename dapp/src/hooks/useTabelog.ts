@@ -35,25 +35,33 @@ export type TabelogData = {
 }
 
 export type UseTabelogArgs = {
+  minLat: number
+  maxLat: number
+  minLon: number
+  maxLon: number
   totalQuery?: number
   pageNumber?: number
 }
 
-export function useTabelog(args?: UseTabelogArgs) {
+export function useTabelog() {
   const [ data, setData ] = useState<TabelogData>({
     total: 0,
     data: [],
   })
 
+  const [ args, setArgs ] = useState<UseTabelogArgs | null>()
+
   useEffect(() => {
     ;(async () => {
+      if (!args) return
+
       const res = await fetch("/api/tabelog", {
         method: "POST",
         body: JSON.stringify({
-          maxLat: 35.629858216204205,
-          minLat: 35.626806028826195,
-          maxLon: 139.74581054105752,
-          minLon: 139.74033883466714,
+          minLat: args.minLat,
+          maxLat: args.maxLat,
+          minLon: args.minLon,
+          maxLon: args.maxLon,
           totalQuery: args?.totalQuery || 20,
           pageNumber: args?.pageNumber || 1,
         }),
@@ -61,9 +69,10 @@ export function useTabelog(args?: UseTabelogArgs) {
 
       setData(await res.json())
     })()
-  }, [])
+  }, [ args ])
 
   return {
     data,
+    setArgs,
   }
 }
