@@ -1,9 +1,13 @@
 import { XMLParser } from "fast-xml-parser"
+import {
+  match,
+  P,
+} from "ts-pattern"
 
 type TabelogMarkers = {
   markers: {
     srchinfo: TabelogSearchInfo
-    marker: TabelogMarker[]
+    marker: TabelogMarker | TabelogMarker[]
   }
 }
 
@@ -46,23 +50,26 @@ const xmlParser = new XMLParser({
 
 export default async function handler(request: Request) {
   const {
-    minLat,
-    maxLat,
-    minLon,
-    maxLon,
+    sw_lat,
+    sw_lon,
+    ne_lat,
+    ne_lon,
     totalQuery = 100,
     pageNumber = 1,
   } = await request.json()
 
   const tabelogUrl =
-    `https://tabelog.com/xml/rstmap?maxLat=${maxLat}&minLat=${minLat}&maxLon=${maxLon}&minLon=${minLon}&SrtT=rt&lst=${totalQuery}&pg=${pageNumber}`
+    `https://tabelog.com/xml/rstmap?maxLat=${ne_lat}&minLat=${sw_lat}&maxLon=${ne_lon}&minLon=${sw_lon}&SrtT=rt&lst=${totalQuery}&pg=${pageNumber}`
 
   const data = await fetch(tabelogUrl)
     .then(res => res.text())
     .then(res => xmlParser.parse(res) as TabelogMarkers)
     .then(res => ({
       total: res.markers.srchinfo.cnt,
-      data: res.markers.marker,
+      data: match(res.markers.marker)
+        .with(P.array(P.any), (res) => res)
+        .with(P.nullish, () => [])
+        .otherwise((res) => [ res ]),
     }))
 
   return new Response(

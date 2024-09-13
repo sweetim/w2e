@@ -1,51 +1,84 @@
-import { GOOGLE_MAP_STYLE } from "@/config"
 import { useTabelog } from "@/hooks/useTabelog"
-import { useGeolocation } from "@uidotdev/usehooks"
 import {
-  Map,
-  MapCameraChangedEvent,
-} from "@vis.gl/react-google-maps"
-import { FC } from "react"
+  FC,
+  useEffect,
+  useState,
+} from "react"
+import "swiper/css"
+import "swiper/css/pagination"
+import {
+  Swiper,
+  SwiperClass,
+  SwiperSlide,
+} from "swiper/react"
 
-const DEFAULT_MAP_DATA = {
-  center: {
-    lat: 35.627992493337665,
-    lng: 139.77536944338857,
-  },
-  zoom: 18,
-}
+import {
+  ShopCard,
+  ShopMap,
+  ShopRefreshMapButton,
+  useShopMapStore,
+} from "@/modules"
+import "./MapsPage.css"
 
 const MapsPage: FC = () => {
-  const { latitude, longitude } = useGeolocation()
+  const [ markers, setMarkers ] = useState<any[]>([])
+  const { data, setArgs, isLoading } = useTabelog()
+  const [ swiper, setSwiper ] = useState<SwiperClass | null>(null)
 
-  const { data, setArgs } = useTabelog()
-  console.log(data)
-  function boundChangeHandler(event: MapCameraChangedEvent) {
-    if (!event.map.getBounds()) return
+  const activeBound = useShopMapStore((state) => state.active)
 
-    setArgs({
-      minLat: event.map.getBounds()!.getNorthEast().lat(),
-      maxLat: event.map.getBounds()!.getSouthWest().lat(),
-      minLon: event.map.getBounds()!.getNorthEast().lng(),
-      maxLon: event.map.getBounds()!.getSouthWest().lng(),
-    })
+  useEffect(() => {
+    if (!activeBound) return
+
+    setArgs(activeBound)
+  }, [ activeBound ])
+
+  useEffect(() => {
+    setMarkers(data.data.map((item, i) => ({
+      lat: Number(item.lat),
+      lng: Number(item.lng),
+      isSelected: i === 0,
+    })))
+  }, [ data ])
+
+  function swiperIndexChangeHandler(swiper: SwiperClass) {
+    setMarkers(prev =>
+      prev.map((item, i) => ({
+        ...item,
+        isSelected: i === swiper.realIndex,
+      }))
+    )
+  }
+
+  function markerClickHandler(index: number) {
+    if (!swiper) return
+
+    swiper.slideTo(index)
   }
 
   return (
-    <div className="w-full h-full">
-      <Map
-        className="h-full w-full"
-        defaultCenter={DEFAULT_MAP_DATA.center}
-        center={{
-          lat: latitude || DEFAULT_MAP_DATA.center.lat,
-          lng: longitude || DEFAULT_MAP_DATA.center.lng,
-        }}
-        defaultZoom={DEFAULT_MAP_DATA.zoom}
-        styles={GOOGLE_MAP_STYLE}
-        gestureHandling={"greedy"}
-        disableDefaultUI={true}
-        onBoundsChanged={boundChangeHandler}
+    <div className="w-full h-full relative">
+      <ShopRefreshMapButton isLoading={isLoading} />
+      <ShopMap
+        markers={markers}
+        markerClickHandler={markerClickHandler}
       />
+      <Swiper
+        slidesPerView={"auto"}
+        spaceBetween={10}
+        centeredSlides={true}
+        className="absolute bottom-3 left-0 w-full h-36"
+        onRealIndexChange={swiperIndexChangeHandler}
+        onSwiper={setSwiper}
+      >
+        {data.data.map((item, i) => {
+          return (
+            <SwiperSlide key={i}>
+              <ShopCard {...item} />
+            </SwiperSlide>
+          )
+        })}
+      </Swiper>
     </div>
   )
 }

@@ -20,13 +20,16 @@ export type TabelogMarker = {
   dinner_score: string
   price_range2: string
   price_range1: string
-  alone_flag: string
+  family_flag?: string
+  friends_flag?: string
+  alone_flag?: string
   memo: string
   pcd: string
   station_name: string
   image_url: string
   pickup_title: string
   pickup_user: string
+  vac?: string
 }
 
 export type TabelogData = {
@@ -35,15 +38,16 @@ export type TabelogData = {
 }
 
 export type UseTabelogArgs = {
-  minLat: number
-  maxLat: number
-  minLon: number
-  maxLon: number
+  sw_lat: number
+  ne_lat: number
+  sw_lon: number
+  ne_lon: number
   totalQuery?: number
   pageNumber?: number
 }
 
 export function useTabelog() {
+  const [ isLoading, setIsLoading ] = useState(false)
   const [ data, setData ] = useState<TabelogData>({
     total: 0,
     data: [],
@@ -55,24 +59,25 @@ export function useTabelog() {
     ;(async () => {
       if (!args) return
 
+      setIsLoading(true)
+
       const res = await fetch("/api/tabelog", {
         method: "POST",
         body: JSON.stringify({
-          minLat: args.minLat,
-          maxLat: args.maxLat,
-          minLon: args.minLon,
-          maxLon: args.maxLon,
-          totalQuery: args?.totalQuery || 20,
-          pageNumber: args?.pageNumber || 1,
+          totalQuery: 20,
+          pageNumber: 1,
+          ...args,
         }),
       })
 
       setData(await res.json())
+      setIsLoading(false)
     })()
   }, [ args ])
 
   return {
     data,
+    isLoading,
     setArgs,
   }
 }

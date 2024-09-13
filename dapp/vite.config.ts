@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import react from "@vitejs/plugin-react-swc"
 import {
   fileURLToPath,
@@ -20,5 +21,12 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+  },
+  test: {
+    includeSource: [ "src/**/*.{js,ts,jsx,tsx}" ],
+    environment: "jsdom",
+  },
+  define: {
+    "import.meta.vitest": "undefined",
   },
 })
