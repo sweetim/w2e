@@ -27,6 +27,8 @@ const ShopCard: FC<TabelogMarker> = (item) => {
           <BookmarkSimple
             // onClick={bookmarkClickHandler}
             size={20}
+            color="#d4d4d8"
+            weight="fill"
             // color={props.isBookmark ? "#f0a9a7" : "#aaa"}
             // weight={props.isBookmark ? "fill" : "duotone"}
           />

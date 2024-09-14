@@ -25,7 +25,7 @@ const ShopOperationDayInformation: FC<ShopOperationDayInformationProps> = ({ hol
     <div className="flex flex-row gap-1">
       {days.map(day => {
         const dateClassName = clsx(
-          "p-1 rounded-full w-5 h-5 text-white flex justify-center items-center",
+          "p-1 rounded-full w-4 h-4 text-white flex justify-center items-center",
           {
             "bg-red-500": tokens.includes(day),
             "bg-green-500": !tokens.includes(day),
@@ -35,7 +35,7 @@ const ShopOperationDayInformation: FC<ShopOperationDayInformationProps> = ({ hol
         )
         return (
           <div key={day} className={dateClassName}>
-            <p className="text-xs">{day}</p>
+            <p className="text-[10px]">{day}</p>
           </div>
         )
       })}

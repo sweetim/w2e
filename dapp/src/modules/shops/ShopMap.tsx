@@ -102,9 +102,9 @@ const ShopMap: FC<ShopMapProps> = ({ markers, markerClickHandler }) => {
             onClick={() => markerClickHandler(index)}
           >
             <Pin
-              background={"#fb7185"}
+              background={item.isSelected ? "#0ea5e9" : "#fb7185"}
               borderColor={"#fff"}
-              glyphColor={"#e11d48"}
+              glyphColor={item.isSelected ? "#7dd3fc" : "#e11d48"}
               scale={item.isSelected ? 1.5 : 1}
             />
           </AdvancedMarker>

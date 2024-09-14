@@ -36,7 +36,7 @@ const MapsPage: FC = () => {
   useEffect(() => {
     if (!swiper) return
 
-    setMarkers(data.data.map((item, i) => ({
+    setMarkers(data.map((item, i) => ({
       lat: Number(item.lat),
       lng: Number(item.lng),
       isSelected: i === 0,
@@ -75,7 +75,7 @@ const MapsPage: FC = () => {
         onRealIndexChange={swiperIndexChangeHandler}
         onSwiper={setSwiper}
       >
-        {data.data.map((item, i) => {
+        {data.map((item, i) => {
           return (
             <SwiperSlide key={i}>
               <ShopCard {...item} />

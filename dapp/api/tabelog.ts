@@ -64,16 +64,25 @@ export default async function handler(request: Request) {
   const data = await fetch(tabelogUrl)
     .then(res => res.text())
     .then(res => xmlParser.parse(res) as TabelogMarkers)
-    .then(res => ({
-      total: res.markers.srchinfo.cnt,
-      data: match(res.markers.marker)
+    .then(res =>
+      match(res.markers.marker)
         .with(P.array(P.any), (res) => res)
         .with(P.nullish, () => [])
-        .otherwise((res) => [ res ]),
-    }))
+        .otherwise((res) => [ res ])
+    )
 
   return new Response(
-    JSON.stringify(data),
+    JSON.stringify(data.map(item => ({
+      id: item.id,
+      holiday: item.holiday,
+      lat: item.lat,
+      lng: item.lng,
+      rsturl: item.rsturl,
+      rstname: item.rstname,
+      rstcat: item.rstcat,
+      score: item.score,
+      image_url: item.image_url,
+    }))),
     {
       status: 200,
       headers: {
