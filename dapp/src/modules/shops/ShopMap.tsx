@@ -1,12 +1,20 @@
-import { GOOGLE_MAP_STYLE } from "@/config"
 import { useGeolocation } from "@uidotdev/usehooks"
 import {
   AdvancedMarker,
   Map,
   MapCameraChangedEvent,
   Pin,
+  useMap,
 } from "@vis.gl/react-google-maps"
-import { FC } from "react"
+import {
+  FC,
+  useEffect,
+  useState,
+} from "react"
+import {
+  match,
+  P,
+} from "ts-pattern"
 import { useShopMapStore } from "./useShopMapStore"
 
 const DEFAULT_MAP_DATA = {
@@ -29,7 +37,11 @@ export type ShopMapProps = {
 }
 
 const ShopMap: FC<ShopMapProps> = ({ markers, markerClickHandler }) => {
-  const { latitude, longitude } = useGeolocation()
+  const [ isCenter, setIsCenter ] = useState(false)
+  const map = useMap()
+  const { latitude, longitude } = useGeolocation({
+    enableHighAccuracy: true,
+  })
 
   const setCurrentBound = useShopMapStore((state) => state.setCurrentBound)
 
@@ -44,21 +56,45 @@ const ShopMap: FC<ShopMapProps> = ({ markers, markerClickHandler }) => {
     })
   }
 
+  useEffect(() => {
+    if (!map) return
+    if (!latitude) return
+    if (!longitude) return
+    if (isCenter) return
+
+    map.setCenter({ lat: latitude, lng: longitude })
+
+    setIsCenter(true)
+  }, [ isCenter, map, latitude, longitude ])
+
   return (
     <>
       <Map
         className="h-full w-full"
+        mapId={import.meta.env.VITE_GOOGLE_MAP_ID}
         defaultCenter={{
-          lat: latitude || DEFAULT_MAP_DATA.center.lat,
-          lng: longitude || DEFAULT_MAP_DATA.center.lng,
+          lat: DEFAULT_MAP_DATA.center.lat,
+          lng: DEFAULT_MAP_DATA.center.lng,
         }}
-        mapId={"8e0a97af9386fef"}
         defaultZoom={DEFAULT_MAP_DATA.zoom}
-        styles={GOOGLE_MAP_STYLE}
         gestureHandling={"greedy"}
         disableDefaultUI={true}
+        clickableIcons={false}
         onBoundsChanged={boundChangeHandler}
       >
+        {match([ latitude, longitude ])
+          .with([ P.number, P.number ], ([ lat, lng ]) => (
+            <AdvancedMarker
+              position={{
+                lat,
+                lng,
+              }}
+            >
+              <div className="pulsating-circle" />
+            </AdvancedMarker>
+          ))
+          .otherwise(() => null)}
+
         {markers.map((item, index) => (
           <AdvancedMarker
             key={`${item.lat}-${item.lng}`}
@@ -66,9 +102,9 @@ const ShopMap: FC<ShopMapProps> = ({ markers, markerClickHandler }) => {
             onClick={() => markerClickHandler(index)}
           >
             <Pin
-              background={item.isSelected ? "#006425" : "#fff"}
-              borderColor={"#006425"}
-              glyphColor={"#60d98f"}
+              background={"#fb7185"}
+              borderColor={"#fff"}
+              glyphColor={"#e11d48"}
               scale={item.isSelected ? 1.5 : 1}
             />
           </AdvancedMarker>

@@ -36,7 +36,7 @@ const ShopRefreshMapButton: FC<ShopRefreshMapButtonProps> = ({ isLoading }) => {
       {showRefreshButton && (
         <div className="absolute top-0 right-0 z-50 w-full flex flex-col items-center justify-center p-2">
           <div
-            className="flex justify-center p-3 rounded-full min-w-32 max-w-32 bg-blue-300 hover:bg-blue-200"
+            className="flex justify-center bg-zinc-200 hover:bg-zinc-100 p-3 rounded-full min-w-32 max-w-32"
             onClick={onClickHandler}
           >
             <Space>

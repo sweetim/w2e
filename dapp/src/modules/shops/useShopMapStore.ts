@@ -18,10 +18,14 @@ type ShopMapStoreActions = {
   setActiveBound: (input: MapBound) => void
 }
 
+const initialState: ShopMapStoreState = {
+  current: null,
+  active: null,
+}
+
 export const useShopMapStore = create<ShopMapStoreState & ShopMapStoreActions>()(
   immer((set) => ({
-    current: null,
-    active: null,
+    ...initialState,
     setCurrentBound: (input: MapBound) =>
       set((state) => {
         state.current = input

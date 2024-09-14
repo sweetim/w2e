@@ -27,8 +27,8 @@ export type TabelogMarker = {
   pcd: string
   station_name: string
   image_url: string
-  pickup_title: string
-  pickup_user: string
+  pickup_title?: string
+  pickup_user?: string
   vac?: string
 }
 

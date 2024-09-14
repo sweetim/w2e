@@ -34,11 +34,15 @@ const MapsPage: FC = () => {
   }, [ activeBound ])
 
   useEffect(() => {
+    if (!swiper) return
+
     setMarkers(data.data.map((item, i) => ({
       lat: Number(item.lat),
       lng: Number(item.lng),
       isSelected: i === 0,
     })))
+
+    swiper.slideTo(0)
   }, [ data ])
 
   function swiperIndexChangeHandler(swiper: SwiperClass) {
