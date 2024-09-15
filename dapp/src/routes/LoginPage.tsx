@@ -24,7 +24,7 @@ const LoginPage = () => {
   return (
     <div className="flex flex-col h-full w-full bg-primary">
       <div className="flex flex-col justify-center items-center h-full w-full relative">
-        <img src="/logo.png" alt="logo" className="w-[256px]" />
+        <img src="/logo.png" alt="logo" className="w-32" />
         <div className="flex flex-col text-center">
           <h1 className="text-2xl text-black font-bold">w2eat</h1>
           <p className="text-zinc-500">where to eat</p>

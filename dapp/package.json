@@ -20,7 +20,6 @@
     "@web3auth/base": "^8.12.4",
     "@web3auth/modal": "^8.12.7",
     "@web3auth/modal-react-hooks": "^8.13.0",
-    "antd": "^5.20.6",
     "aptos": "^1.21.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",

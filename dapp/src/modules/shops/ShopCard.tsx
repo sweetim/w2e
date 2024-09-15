@@ -3,7 +3,6 @@ import {
   BookmarkSimple,
   MapTrifold,
 } from "@phosphor-icons/react"
-import { Space } from "antd"
 import {
   FC,
   MouseEvent,
@@ -41,7 +40,7 @@ const ShopCard: FC<TabelogMarker> = (item) => {
       onClick={cardClickHandler}
       className="bg-slate-100 h-full rounded-3xl p-3"
     >
-      <Space direction="vertical" className="w-full">
+      <div className="flex flex-col gap-1 w-full">
         <div className="flex flex-row justify-between">
           <h1 className="text-base font-black line-clamp-1 mr-5">
             {item.rstname}
@@ -78,7 +77,7 @@ const ShopCard: FC<TabelogMarker> = (item) => {
             <ShopOperationDayInformation holiday={item.holiday} />
           </div>
         </div>
-      </Space>
+      </div>
     </div>
   )
 }

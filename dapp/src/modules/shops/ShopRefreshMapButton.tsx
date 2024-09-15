@@ -1,5 +1,4 @@
 import { ArrowClockwise } from "@phosphor-icons/react"
-import { Space } from "antd"
 import {
   FC,
   useMemo,
@@ -39,10 +38,10 @@ const ShopRefreshMapButton: FC<ShopRefreshMapButtonProps> = ({ isLoading }) => {
             className="flex justify-center bg-zinc-200 hover:bg-zinc-100 p-3 rounded-full min-w-32 max-w-32"
             onClick={onClickHandler}
           >
-            <Space>
+            <div className="flex flex-row gap-3 items-center">
               <ArrowClockwise className={isLoading ? "animate-spin" : ""} size={20} weight="fill" />
               <p>{isLoading ? "loading..." : "refresh"}</p>
-            </Space>
+            </div>
           </div>
         </div>
       )}

@@ -1,21 +1,16 @@
 import { BottomNavBar } from "@/modules"
-import { Layout } from "antd"
-import {
-  Content,
-  Footer,
-} from "antd/es/layout/layout"
 import { Outlet } from "react-router-dom"
 
 const HomePage = () => {
   return (
-    <Layout className="h-full bg-primary">
-      <Content className="h-full">
+    <div className="flex flex-col h-full w-full bg-primary">
+      <div className="h-full">
         <Outlet />
-      </Content>
-      <Footer className="!p-0">
+      </div>
+      <div>
         <BottomNavBar />
-      </Footer>
-    </Layout>
+      </div>
+    </div>
   )
 }
 

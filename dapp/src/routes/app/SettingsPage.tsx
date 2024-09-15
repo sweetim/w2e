@@ -1,11 +1,6 @@
 import { useAptosAccountInfo } from "@/hooks"
+import { IdentificationBadge } from "@phosphor-icons/react"
 import { useWeb3Auth } from "@web3auth/modal-react-hooks"
-import {
-  Avatar,
-  Button,
-  Space,
-} from "antd"
-import Paragraph from "antd/lib/typography/Paragraph"
 import {
   FC,
   useEffect,
@@ -36,21 +31,22 @@ const SettingsPage: FC = () => {
     navigate("/")
   }
   return (
-    <div className="w-full text-center mt-20 bg-primary">
-      <Space direction="vertical" size="large" align="center">
-        <Avatar size={128} src={profileImage} />
-        <Paragraph
-          style={{ width: 300 }}
-          ellipsis
-          copyable
-          className="font-bold"
+    <div className="flex flex-col justify-center items-center h-full w-full bg-primary">
+      <div className="flex flex-col items-center justify-center gap-3">
+        <img className="w-32 h-32 rounded-full" src={profileImage} />
+        <div className="flex flex-row gap-2 items-center bg-zinc-300 p-2 rounded-full">
+          <IdentificationBadge size={20} weight="duotone" />
+          <p className="overflow-hidden truncate w-48">
+            {account?.accountAddress.toString()}
+          </p>
+        </div>
+        <div
+          onClick={logoutClickHandler}
+          className="bg-blue-600 hover:bg-blue-500 text-white rounded-3xl p-3 px-16 mt-10"
         >
-          {account?.accountAddress.toString()}
-        </Paragraph>
-        <Button type="primary" size="large" onClick={logoutClickHandler}>
-          LOGOUT
-        </Button>
-      </Space>
+          <p>LOGOUT</p>
+        </div>
+      </div>
     </div>
   )
 }

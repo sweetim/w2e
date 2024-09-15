@@ -1,15 +1,15 @@
 import { getAptosClient } from "@/contract"
 import { useCoinsData } from "@/hooks"
 import { useAptosAccountInfo } from "@/hooks/useAptosAccountInfo"
-import {
-  Avatar,
-  List,
-  Space,
-} from "antd"
+
 import {
   FC,
   useEffect,
 } from "react"
+import {
+  match,
+  P,
+} from "ts-pattern"
 
 const aptosClient = getAptosClient()
 
@@ -34,27 +34,31 @@ const WalletPage: FC = () => {
   }, [ coinsData ])
 
   return (
-    <Space direction="vertical" size="large" className="w-full p-2 bg-primary">
-      <Space direction="vertical" className="w-full">
-        <h1>
+    <div className="flex flex-col h-full w-full bg-primary">
+      <div className="flex flex-col h-full w-full gap-2">
+        <h1 className="p-2">
           <strong>Tokens</strong>
         </h1>
-        <List
-          itemLayout="horizontal"
-          dataSource={coinsData || []}
-          renderItem={(item) => (
-            <List.Item className="!p-2">
-              <List.Item.Meta
-                avatar={<Avatar className="bg-white" src={item.iconUri} />}
-                title={item.symbol}
-                description={item.name}
-              />
-              <h2 className="text-xl font-bold">{item.amount?.toLocaleString()}</h2>
-            </List.Item>
-          )}
-        />
-      </Space>
-    </Space>
+        <div className="w-full h-full overflow-auto">
+          {match(coinsData)
+            .with(P.array(P.any), (data) => {
+              return data.map((item) => (
+                <div className="flex flex-row items-center gap-3 p-2 hover:bg-zinc-200">
+                  <img src={item.iconUri} alt={`${item.symbol} icon`} className="w-8 h-8 rounded-full" />
+                  <div className="flex flex-row justify-between w-full items-center">
+                    <div className="flex flex-col">
+                      <h2 className="text-lg font-bold">{item.symbol}</h2>
+                      <p className="text-sm text-zinc-600">{item.name}</p>
+                    </div>
+                    <p className="text-xl font-bold">{item.amount?.toString()}</p>
+                  </div>
+                </div>
+              ))
+            })
+            .otherwise(() => null)}
+        </div>
+      </div>
+    </div>
   )
 }
 
