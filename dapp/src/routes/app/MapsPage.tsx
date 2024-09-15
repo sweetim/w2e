@@ -17,10 +17,11 @@ import {
   ShopMap,
   useShopMapStore,
 } from "@/modules"
+import { ShopMapMarker } from "@/modules/shops/ShopMap"
 import "./MapsPage.css"
 
 const MapsPage: FC = () => {
-  const [ markers, setMarkers ] = useState<any[]>([])
+  const [ markers, setMarkers ] = useState<ShopMapMarker[]>([])
   const { data, setArgs, isLoading } = useTabelog()
   const [ swiper, setSwiper ] = useState<SwiperClass | null>(null)
 
@@ -35,11 +36,12 @@ const MapsPage: FC = () => {
   useEffect(() => {
     if (!swiper) return
 
-    setMarkers(data.map((item, i) => ({
-      lat: Number(item.lat),
-      lng: Number(item.lng),
-      isSelected: i === 0,
-    })))
+    setMarkers(
+      data.map((item, i) => ({
+        data: item,
+        isSelected: i === 0,
+      })),
+    )
 
     swiper.slideTo(0)
   }, [ data ])

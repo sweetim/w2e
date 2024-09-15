@@ -39,7 +39,7 @@ const ShopCard: FC<TabelogMarker> = (item) => {
   return (
     <div
       onClick={cardClickHandler}
-      className="bg-blue-100 h-full rounded-3xl p-3"
+      className="bg-slate-100 h-full rounded-3xl p-3"
     >
       <Space direction="vertical" className="w-full">
         <div className="flex flex-row justify-between">

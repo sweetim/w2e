@@ -22,7 +22,7 @@ export default defineConfig({
       },
       manifest: {
         name: "where to eat",
-        short_name: "w2e",
+        short_name: "w2eat",
         description: "a dapp for finding restaurants",
         theme_color: "#f5f5f5",
         scope: "/",

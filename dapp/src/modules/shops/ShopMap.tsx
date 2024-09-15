@@ -1,3 +1,4 @@
+import { TabelogMarker } from "@/hooks/useTabelog"
 import { useGeolocation } from "@uidotdev/usehooks"
 import {
   AdvancedMarker,
@@ -27,8 +28,7 @@ const DEFAULT_MAP_DATA = {
 }
 
 export type ShopMapMarker = {
-  lat: number
-  lng: number
+  data: TabelogMarker
   isSelected: boolean
 }
 
@@ -39,6 +39,7 @@ export type ShopMapProps = {
 }
 
 const ShopMap: FC<ShopMapProps> = ({ isDataLoading, markers, markerClickHandler }) => {
+  const [ isFirstRender, setIsFirstRender ] = useState(true)
   const [ isCenter, setIsCenter ] = useState(false)
   const map = useMap()
   const { latitude, longitude, loading: isLocationLoading } = useGeolocation({
@@ -46,16 +47,24 @@ const ShopMap: FC<ShopMapProps> = ({ isDataLoading, markers, markerClickHandler 
   })
 
   const setCurrentBound = useShopMapStore((state) => state.setCurrentBound)
+  const setActiveBound = useShopMapStore((state) => state.setActiveBound)
 
   function boundChangeHandler(event: MapCameraChangedEvent) {
     if (!event.map.getBounds()) return
 
-    setCurrentBound({
+    const bound = {
       ne_lon: event.map.getBounds()!.getNorthEast().lng(),
       ne_lat: event.map.getBounds()!.getNorthEast().lat(),
       sw_lon: event.map.getBounds()!.getSouthWest().lng(),
       sw_lat: event.map.getBounds()!.getSouthWest().lat(),
-    })
+    }
+
+    setCurrentBound(bound)
+
+    if (isFirstRender) {
+      setActiveBound(bound)
+      setIsFirstRender(false)
+    }
   }
 
   useEffect(() => {
@@ -80,7 +89,7 @@ const ShopMap: FC<ShopMapProps> = ({ isDataLoading, markers, markerClickHandler 
         ? (
           <div className="w-full h-full flex flex-col items-center justify-center bg-slate-100">
             <img src="/loading.gif" alt="loading" />
-            <p className="text-zinc-500">...locating...</p>
+            <p className="text-zinc-500">locating</p>
           </div>
         )
         : (
@@ -112,20 +121,31 @@ const ShopMap: FC<ShopMapProps> = ({ isDataLoading, markers, markerClickHandler 
                 ))
                 .otherwise(() => null)}
 
-              {markers.map((item, index) => (
-                <AdvancedMarker
-                  key={`${item.lat}-${item.lng}`}
-                  position={{ lat: item.lat, lng: item.lng }}
-                  onClick={() => markerClickHandler(index)}
-                >
-                  <Pin
-                    background={item.isSelected ? "#0ea5e9" : "#fb7185"}
-                    borderColor={"#fff"}
-                    glyphColor={item.isSelected ? "#7dd3fc" : "#e11d48"}
-                    scale={item.isSelected ? 1.5 : 1}
-                  />
-                </AdvancedMarker>
-              ))}
+              {markers.map((item, index) => {
+                const [ backgroundColor, glyphColor ] = match([ item.isSelected, Number(item.data.score) ])
+                  .with([ true, P.any ], () => [ "#0ea5e9", "#7dd3fc" ])
+                  .with([ false, P.number.gte(3.5) ], () => [ "#fb7185", "#e11d48" ])
+                  .with([ false, P.number.gte(3.3) ], () => [ "#fda4af", "#f472b6" ])
+                  .otherwise(() => [ "#9ca3af", "#6b7280" ])
+
+                return (
+                  <AdvancedMarker
+                    key={`${item.data.id}`}
+                    position={{
+                      lat: Number(item.data.lat),
+                      lng: Number(item.data.lng),
+                    }}
+                    onClick={() => markerClickHandler(index)}
+                  >
+                    <Pin
+                      background={backgroundColor}
+                      borderColor={"#FFF"}
+                      glyphColor={glyphColor}
+                      scale={item.isSelected ? 1.5 : 1}
+                    />
+                  </AdvancedMarker>
+                )
+              })}
             </Map>
           </>
         )}
