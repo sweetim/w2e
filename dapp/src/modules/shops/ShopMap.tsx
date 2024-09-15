@@ -125,7 +125,7 @@ const ShopMap: FC<ShopMapProps> = ({ isDataLoading, markers, markerClickHandler 
                 const [ backgroundColor, glyphColor ] = match([ item.isSelected, Number(item.data.score) ])
                   .with([ true, P.any ], () => [ "#0ea5e9", "#7dd3fc" ])
                   .with([ false, P.number.gte(3.5) ], () => [ "#fb7185", "#e11d48" ])
-                  .with([ false, P.number.gte(3.3) ], () => [ "#fda4af", "#f472b6" ])
+                  .with([ false, P.number.gte(3.3) ], () => [ "#fda4af", "#fb7185" ])
                   .otherwise(() => [ "#9ca3af", "#6b7280" ])
 
                 return (
