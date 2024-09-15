@@ -1,7 +1,13 @@
 import { TabelogMarker } from "@/hooks/useTabelog"
-import { BookmarkSimple } from "@phosphor-icons/react"
+import {
+  BookmarkSimple,
+  MapTrifold,
+} from "@phosphor-icons/react"
 import { Space } from "antd"
-import { FC } from "react"
+import {
+  FC,
+  MouseEvent,
+} from "react"
 import ShopOperationDayInformation from "./ShopOperationDayInformation"
 import StarsRating from "./StarsRating"
 
@@ -11,6 +17,23 @@ const ShopCard: FC<TabelogMarker> = (item) => {
       `https://tabelog.com${item.rsturl}`,
       "_blank",
     )
+  }
+
+  function mapLocationClickHandler(ev: MouseEvent<SVGSVGElement>) {
+    ev.stopPropagation()
+
+    const query = encodeURIComponent(
+      `${item.rstname}`,
+    )
+
+    window.open(
+      `https://www.google.com/maps/search/?api=1&query=${query}`,
+      "_blank",
+    )
+  }
+
+  function bookmarkClickHandler(ev: MouseEvent<SVGSVGElement>) {
+    ev.stopPropagation()
   }
 
   return (
@@ -23,15 +46,22 @@ const ShopCard: FC<TabelogMarker> = (item) => {
           <h1 className="text-base font-black line-clamp-1 mr-5">
             {item.rstname}
           </h1>
-
-          <BookmarkSimple
-            // onClick={bookmarkClickHandler}
-            size={20}
-            color="#d4d4d8"
-            weight="fill"
-            // color={props.isBookmark ? "#f0a9a7" : "#aaa"}
-            // weight={props.isBookmark ? "fill" : "duotone"}
-          />
+          <div className="flex flex-row gap-2">
+            <MapTrifold
+              onClick={mapLocationClickHandler}
+              size={22}
+              color="#0284c7"
+              weight="duotone"
+            />
+            <BookmarkSimple
+              onClick={bookmarkClickHandler}
+              size={22}
+              color="#d4d4d8"
+              weight="fill"
+              // color={props.isBookmark ? "#f0a9a7" : "#aaa"}
+              // weight={props.isBookmark ? "fill" : "duotone"}
+            />
+          </div>
         </div>
         <div className="flex flex-row">
           <img

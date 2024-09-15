@@ -15,7 +15,6 @@ import {
 import {
   ShopCard,
   ShopMap,
-  ShopRefreshMapButton,
   useShopMapStore,
 } from "@/modules"
 import "./MapsPage.css"
@@ -62,8 +61,8 @@ const MapsPage: FC = () => {
 
   return (
     <div className="w-full h-full relative">
-      <ShopRefreshMapButton isLoading={isLoading} />
       <ShopMap
+        isDataLoading={isLoading}
         markers={markers}
         markerClickHandler={markerClickHandler}
       />

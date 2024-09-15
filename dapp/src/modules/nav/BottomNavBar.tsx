@@ -1,8 +1,7 @@
 import {
+  BookmarksSimple,
   Icon,
-  MapPinArea,
   MapTrifold,
-  PlusCircle,
   UserCircleGear,
   Wallet,
 } from "@phosphor-icons/react"
@@ -17,34 +16,24 @@ import { match } from "ts-pattern"
 type NavBarItem = {
   to: string
   icon: Icon
-  title: string
 }
 
 const navBarItems: NavBarItem[] = [
   {
-    to: "/app",
+    to: "/",
     icon: MapTrifold,
-    title: "Maps",
   },
   {
-    to: "/app/poi",
-    icon: MapPinArea,
-    title: "PoI",
-  },
-  {
-    to: "/app/create",
-    icon: PlusCircle,
-    title: "Create",
+    to: "/favorite",
+    icon: BookmarksSimple,
   },
   {
     to: "/app/wallet",
     icon: Wallet,
-    title: "Wallet",
   },
   {
     to: "/app/settings",
     icon: UserCircleGear,
-    title: "Settings",
   },
 ]
 
@@ -55,8 +44,8 @@ const BottomNavBar: FC = () => {
     .join("/")
 
   return (
-    <div className="w-full h-16 border-none z-50">
-      <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium">
+    <div className="w-full h-12 border-none z-50">
+      <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
         {navBarItems.map((item, index) => {
           const isPathMatching = currentToRoute === item.to
 
@@ -85,9 +74,6 @@ const BottomNavBar: FC = () => {
                 weight="fill"
                 className="group-hover:fill-[#1677FF]"
               />
-              <span className={spanClassName}>
-                {item.title}
-              </span>
             </Link>
           )
         })}

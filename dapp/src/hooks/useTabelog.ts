@@ -41,7 +41,7 @@ export function useTabelog() {
       const res = await fetch("/api/tabelog", {
         method: "POST",
         body: JSON.stringify({
-          totalQuery: 30,
+          totalQuery: 20,
           pageNumber: 1,
           ...args,
         }),

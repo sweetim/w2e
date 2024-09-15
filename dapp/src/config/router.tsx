@@ -1,4 +1,5 @@
 import {
+  FavoritePage,
   HomePage,
   MapsPage,
   RootPage,
@@ -17,6 +18,10 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: <MapsPage />,
+          },
+          {
+            path: "favorite",
+            element: <FavoritePage />,
           },
         ],
       },
