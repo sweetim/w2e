@@ -23,7 +23,7 @@ const navBarItems: NavBarItem[] = [
     icon: MapTrifold,
   },
   {
-    to: "/favorite",
+    to: "/app/favorite",
     icon: BookmarksSimple,
   },
   {
@@ -43,7 +43,7 @@ const BottomNavBar: FC = () => {
     .join("/")
 
   return (
-    <div className="w-full h-12 border-none z-50">
+    <div className="w-full h-12 border-none z-50 bg-primary">
       <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
         {navBarItems.map((item, index) => {
           const isPathMatching = currentToRoute === item.to

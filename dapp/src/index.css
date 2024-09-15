@@ -4,6 +4,6 @@
 
 @layer base {
   .bg-primary {
-    @apply bg-indigo-100;
+    @apply bg-[#f4f4e9];
   }
 }

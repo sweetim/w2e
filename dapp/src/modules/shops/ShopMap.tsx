@@ -89,7 +89,7 @@ const ShopMap: FC<ShopMapProps> = ({ isDataLoading, markers, markerClickHandler 
         ? (
           <div className="w-full h-full flex flex-col items-center justify-center bg-slate-100">
             <img src="/loading.gif" alt="loading" />
-            <p className="text-zinc-500">locating</p>
+            <p className="text-zinc-500">locating...</p>
           </div>
         )
         : (

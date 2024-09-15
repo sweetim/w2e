@@ -8,7 +8,7 @@ import { Outlet } from "react-router-dom"
 
 const HomePage = () => {
   return (
-    <Layout className="h-full bg-slate-100">
+    <Layout className="h-full bg-primary">
       <Content className="h-full">
         <Outlet />
       </Content>

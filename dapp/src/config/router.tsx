@@ -1,8 +1,12 @@
+import { ProtectedRoute } from "@/modules/common"
 import {
   FavoritePage,
   HomePage,
+  LoginPage,
   MapsPage,
   RootPage,
+  SettingsPage,
+  WalletPage,
 } from "@/routes"
 import { createBrowserRouter } from "react-router-dom"
 
@@ -13,7 +17,15 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <HomePage />,
+        element: <LoginPage />,
+      },
+      {
+        path: "app",
+        element: (
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
+        ),
         children: [
           {
             index: true,
@@ -22,6 +34,14 @@ export const router = createBrowserRouter([
           {
             path: "favorite",
             element: <FavoritePage />,
+          },
+          {
+            path: "wallet",
+            element: <WalletPage />,
+          },
+          {
+            path: "settings",
+            element: <SettingsPage />,
           },
         ],
       },

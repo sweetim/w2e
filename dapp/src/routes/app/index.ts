@@ -1,3 +1,5 @@
 export { default as FavoritePage } from "./FavoritePage"
 export { default as HomePage } from "./HomePage"
 export { default as MapsPage } from "./MapsPage"
+export { default as SettingsPage } from "./SettingsPage"
+export { default as WalletPage } from "./WalletPage"
