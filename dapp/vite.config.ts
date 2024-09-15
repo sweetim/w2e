@@ -25,7 +25,7 @@ export default defineConfig({
         name: "where to eat",
         short_name: "w2eat",
         description: "a dapp for finding restaurants",
-        theme_color: "#f5f5f5",
+        theme_color: "#f4f4e9",
         scope: "/",
         start_url: "/",
         icons: [

@@ -4,10 +4,10 @@ import { Outlet } from "react-router-dom"
 const HomePage = () => {
   return (
     <div className="flex flex-col h-full w-full bg-primary">
-      <div className="h-full">
+      <div className="flex-auto">
         <Outlet />
       </div>
-      <div>
+      <div className="flex-none">
         <BottomNavBar />
       </div>
     </div>
