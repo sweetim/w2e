@@ -16,6 +16,7 @@ export default defineConfig({
       registerType: "autoUpdate",
       workbox: {
         globPatterns: [ "**/*.{js,css,html,ico,png,svg}" ],
+        maximumFileSizeToCacheInBytes: 1024 * 1024 * 3,
       },
       devOptions: {
         enabled: true,

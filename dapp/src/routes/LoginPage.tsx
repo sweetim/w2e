@@ -22,8 +22,8 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="flex flex-col h-full w-full">
-      <div className="flex flex-col justify-center items-center h-full w-full relative bg-primary">
+    <div className="flex flex-col h-full w-full bg-primary">
+      <div className="flex flex-col justify-center items-center h-full w-full relative">
         <img src="/logo.png" alt="logo" className="w-[256px]" />
         <div className="flex flex-col text-center">
           <h1 className="text-2xl text-black font-bold">w2eat</h1>
