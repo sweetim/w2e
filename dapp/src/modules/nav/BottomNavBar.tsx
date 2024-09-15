@@ -5,7 +5,6 @@ import {
   UserCircleGear,
   Wallet,
 } from "@phosphor-icons/react"
-import clsx from "clsx"
 import { FC } from "react"
 import {
   Link,
@@ -48,13 +47,6 @@ const BottomNavBar: FC = () => {
       <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
         {navBarItems.map((item, index) => {
           const isPathMatching = currentToRoute === item.to
-
-          const spanClassName = clsx(
-            "text-sm text-gray-500 group-hover:text-[#1677FF]",
-            {
-              "text-[#1677FF]": isPathMatching,
-            },
-          )
 
           const navIconColor = match(isPathMatching)
             .with(true, () => "#1677FF")
