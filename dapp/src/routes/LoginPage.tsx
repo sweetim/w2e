@@ -32,13 +32,16 @@ const LoginPage = () => {
         </div>
         <div
           onClick={loginClickHandler}
-          className="bg-blue-600 hover:bg-blue-500 text-white rounded-3xl p-3 px-16 mt-10"
+          className="bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl text-white rounded-3xl p-3 px-16 mt-10"
         >
           <p>LOGIN</p>
         </div>
       </div>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center relative">
         <img src="/fruits-bg.png" alt="fruits-bg" />
+        <p className="text-xs absolute bottom-1 bg-[#f4f4e9] p-1 px-2 rounded-full">
+          v{__APP_VERSION__}
+        </p>
       </div>
     </div>
   )

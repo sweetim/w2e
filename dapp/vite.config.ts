@@ -1,5 +1,6 @@
 /// <reference types="vitest" />
 import react from "@vitejs/plugin-react-swc"
+import { execSync } from "node:child_process"
 import {
   fileURLToPath,
   URL,
@@ -16,7 +17,6 @@ export default defineConfig({
       registerType: "autoUpdate",
       workbox: {
         globPatterns: [ "**/*.{js,css,html,ico,png,svg}" ],
-        maximumFileSizeToCacheInBytes: 1024 * 1024 * 3,
       },
       devOptions: {
         enabled: true,
@@ -88,5 +88,6 @@ export default defineConfig({
   define: {
     "import.meta.vitest": "undefined",
     global: "globalThis",
+    "__APP_VERSION__": `${execSync("git rev-list --count --all").toString()}`,
   },
 })
