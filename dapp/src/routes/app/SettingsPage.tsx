@@ -1,6 +1,6 @@
 import { useAptosAccountInfo } from "@/hooks"
 import { IdentificationBadge } from "@phosphor-icons/react"
-import { useWeb3Auth } from "@web3auth/modal-react-hooks"
+import { useWeb3Auth } from "@web3auth/no-modal-react-hooks"
 import {
   FC,
   useEffect,

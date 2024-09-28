@@ -1,4 +1,5 @@
-import { useWeb3Auth } from "@web3auth/modal-react-hooks"
+import { WALLET_ADAPTERS } from "@web3auth/base"
+import { useWeb3Auth } from "@web3auth/no-modal-react-hooks"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -7,7 +8,7 @@ const LoginPage = () => {
 
   const {
     isConnected,
-    connect,
+    connectTo,
   } = useWeb3Auth()
 
   useEffect(() => {
@@ -17,7 +18,13 @@ const LoginPage = () => {
   }, [ isConnected ])
 
   async function loginClickHandler() {
-    await connect()
+    await connectTo(
+      WALLET_ADAPTERS.AUTH,
+      {
+        loginProvider: "google",
+      },
+    )
+
     navigate("/app")
   }
 
