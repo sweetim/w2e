@@ -39,9 +39,12 @@ const LoginPage = () => {
         </div>
         <div
           onClick={loginClickHandler}
-          className="bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl text-white rounded-3xl p-3 px-16 mt-10"
+          className="bg-zinc-800 hover:bg-zinc-600 text-white rounded-3xl p-3 px-4 mt-10"
         >
-          <p>LOGIN</p>
+          <div className="flex flex-row gap-3 items-center">
+            <img src="/google-logo.png" alt="google-logo" className="w-6" />
+            <p>Sign in with Google</p>
+          </div>
         </div>
       </div>
       <div className="flex justify-center items-center relative">

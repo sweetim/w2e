@@ -42,7 +42,7 @@ const SettingsPage: FC = () => {
         </div>
         <div
           onClick={logoutClickHandler}
-          className="bg-blue-600 hover:bg-blue-500 text-white rounded-3xl p-3 px-16 mt-10"
+          className="bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl text-white rounded-3xl p-3 px-16 mt-10"
         >
           <p>LOGOUT</p>
         </div>
